@@ -1,10 +1,10 @@
 # EchoLense
 A lens that returns (echoes) a description
 
-##Idea
+## Idea
 Capture real time images to generate accurate captions and then convert text to speech to guide visually impared people.
 
-##Major Areas:
+## Major Areas:
 - Architecture
 - Vision Encoder
 - Text Decoder
