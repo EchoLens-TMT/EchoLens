@@ -5,7 +5,7 @@
 ## Team Members:
 ### Tushar Garg
 ### Tej Pratap Singh
-### Maneesh Raghavendra Kumar
+### Maneesh
 ### Ayushman
 
 ## Problem Statement
