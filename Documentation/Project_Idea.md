@@ -4,7 +4,7 @@
 
 ## Team Members:
 ### Tushar Garg
-### Tej Pratap Singh
+### Tej Pratap
 ### Maneesh
 ### Ayushman
 
