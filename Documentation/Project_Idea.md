@@ -6,7 +6,6 @@
 ### Tushar Garg 12501320
 ### Tej Pratap 12502153
 ### Maneesh Ragavendra Kumar 12502234
-### Ayushman 
 
 ## Problem Statement
 
