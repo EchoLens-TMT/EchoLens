@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+# Class for encoder model
 class CNNEncoder(nn.Module):
     def __init__(self):
         super(CNNEncoder, self).__init__()
