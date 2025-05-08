@@ -23,34 +23,20 @@ if __name__ == "__main__":
     ])
 
     image_folder = "/mnt/d/DIT/First Sem/Computer Vision/EchoLens/DataSet/Images"
-    captions_dataset = "/mnt/d/DIT/First Sem/Computer Vision/EchoLens/DataSet"
+    captions_dataset = "/mnt/d/DIT/First Sem/Computer Vision/EchoLens/DataSet/captions.txt"
 
-    dataset = ImageCaptionDataset(image_folder, transform=image_transforms)
-    loader = ImageLoader(image_folder, image_transforms)
+    # dataset = ImageCaptionDataset(image_folder, transform=image_transforms)
+    # loader = ImageLoader(image_folder, image_transforms)
 
-    # Visualize a batch of images
-    loader.visualize_batch()
+    # # Visualize a batch of images
+    # loader.visualize_batch()
 
-    with open(str(captions_dataset+"/captions.txt"), "r", encoding="utf-8") as f:
+    with open(str(captions_dataset), "r", encoding="utf-8") as f:
         captions = [str(line.strip().lower().split(',')[1]) for line in f.readlines()]
 
     # 2. Initialize and build vocab
-    vocab = Vocabulary(freq_threshold=3)
+    vocab = Vocabulary(freq_threshold=5)
     vocab.build_vocabulary(captions)
-
-    # 3. Check vocab size
-    print("Vocabulary size:", len(vocab))
-
-    #4. Encode a sample caption
-    sample = captions[0]
-    encoded = vocab.numericalize(sample)
-    print("Encoded caption:", encoded)
-
-    encoder = CNNEncoder()
-    dummy_input = torch.randn(32, 3, 224, 224)  # batch of 32 RGB images
-    output = encoder(dummy_input)
-    print(output.shape)  # Expected: torch.Size([32, 256])
-
 
     ###################################################################
     # Training 
@@ -60,19 +46,14 @@ if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(device)
 
-    num_epochs = 10
+    num_epochs = 25
     batch_size = 32
     learning_rate = 1e-3
     freq_threshold = 5
 
     # -------- SETUP DATA & VOCAB --------
-    image_loader = ImageLoader(image_folder, transform=image_transforms, batch_size=batch_size)
+    image_loader = ImageLoader(image_folder, captions_dataset, transform=image_transforms, batch_size=batch_size)
     dataloader = image_loader.get_dataloader()
-
-    # Dummy: Build vocab from captions list
-    captions_dataset = ["a man riding a horse", "a dog jumping over a hurdle"] * 20000  # Simulated
-    vocab = Vocabulary(freq_threshold)
-    vocab.build_vocabulary(captions_dataset)
 
     # -------- MODEL INIT --------
     encoder = CNNEncoder().to(device)
@@ -90,10 +71,10 @@ if __name__ == "__main__":
         total_loss = 0
 
         loop = tqdm(dataloader, leave=True)
-        for imgs, captions in loop:
+        for imgs, imgs_name, captions in loop:
             imgs = imgs.to(device)
             # Convert raw captions into numerical format
-            tokenized_captions = [[vocab.word2idx["<start>"]] + [vocab.word2idx.get(token, vocab.word2idx["<unk>"]) for token in caption.lower().split()] + [vocab.word2idx["<end>"]] for caption in captions]
+            tokenized_captions = [vocab.numericalize(caption) for caption in captions]
 
             caption_lengths = [len(cap) for cap in tokenized_captions]
             max_len = max(caption_lengths)

@@ -35,11 +35,15 @@ from decoder import DecoderRNN
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
 
-# Dummy: Build vocab from captions list
-captions_dataset = ["a man riding a horse", "a dog jumping over a hurdle"] * 20000  # Simulated
-freq_threshold = 3
-vocab = Vocabulary(freq_threshold)
-vocab.build_vocabulary(captions_dataset)
+image_folder = "/mnt/d/DIT/First Sem/Computer Vision/EchoLens/DataSet/Images"
+captions_dataset = "/mnt/d/DIT/First Sem/Computer Vision/EchoLens/DataSet/captions.txt"
+
+with open(str(captions_dataset), "r", encoding="utf-8") as f:
+    captions = [str(line.strip().lower().split(',')[1]) for line in f.readlines()]
+
+# 2. Initialize and build vocab
+vocab = Vocabulary(freq_threshold=5)
+vocab.build_vocabulary(captions)
 
 
 encoder = CNNEncoder()
@@ -92,6 +96,6 @@ def generate_caption(image_tensor, encoder, decoder, vocab, max_length=20):
 
     return " ".join(caption)
 
-image_tensor = preprocess_image("/mnt/c/Users/Tushar Garg/Downloads/woman-3432069_1280.jpg")
+image_tensor = preprocess_image("/mnt/c/Users/Tushar Garg/Downloads/premium_photo-1681880953942-7775deea2fbe.jpeg")
 caption = generate_caption(image_tensor, encoder, decoder, vocab)
 print("Generated Caption:", caption)

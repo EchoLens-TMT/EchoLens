@@ -2,7 +2,7 @@ import collections
 import re
 
 class Vocabulary:
-    def __init__(self, freq_threshold=3):
+    def __init__(self, freq_threshold=5):
         self.freq_threshold = freq_threshold
         self.word2idx = {
             "<pad>": 0,
