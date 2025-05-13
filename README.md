@@ -2,7 +2,7 @@
 A lens that returns (echoes) a description
 
 ## Idea
-Capture real time images to generate accurate captions and then convert text to speech to guide visually impared people.
+Capture real-time images to generate accurate captions and convert text to speech to guide visually impaired people.
 
 ## Major Areas:
 - Architecture
@@ -11,7 +11,7 @@ Capture real time images to generate accurate captions and then convert text to 
 - Text to Speech
 - Additional features and BOT
 
-[TG - 4/24] - Some research papers that we can refer:
+[TG - 4/24] - Some research papers that we can refer to:
 1. https://ieeexplore.ieee.org/abstract/document/10890285
 2. https://arxiv.org/abs/1411.4555 -- 2015
 3. https://arxiv.org/abs/1502.03044 -- 2016
@@ -45,7 +45,7 @@ Possible Approach:
 ## 🧪 Phase 2: Evaluation and Ensemble
 
 - Define **shared dataset + evaluation notebook**
-- Compare models on same inputs
+- Compare models on the same inputs
 - Optionally, ensemble or fuse approaches (e.g., late fusion of outputs)
 
 ---
