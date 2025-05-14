@@ -7,7 +7,8 @@ import os
 from tqdm import tqdm
 
 from imageLoader import ImageCaptionDataset, ImageLoader
-from encoder import CNNEncoder
+#from encoder import CNNEncoder
+from encoder_pretrained import CNNEncoder
 from vocabulary import Vocabulary
 from decoder import DecoderRNN
 
@@ -46,7 +47,7 @@ if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(device)
 
-    num_epochs = 25
+    num_epochs = 5
     batch_size = 32
     learning_rate = 1e-3
     freq_threshold = 5
@@ -61,7 +62,7 @@ if __name__ == "__main__":
 
     # -------- LOSS & OPTIMIZER --------
     criterion = nn.CrossEntropyLoss(ignore_index=vocab.word2idx["<pad>"])
-    params = list(decoder.parameters()) + list(encoder.fc2.parameters()) + list(encoder.bn2.parameters())
+    params = list(decoder.parameters()) + list(encoder.fc.parameters()) + list(encoder.bn.parameters())
     optimizer = optim.Adam(params, lr=learning_rate)
 
     # -------- TRAINING LOOP --------
@@ -96,6 +97,7 @@ if __name__ == "__main__":
             loss.backward()
             optimizer.step()
 
+
             total_loss += loss.item()
             loop.set_description(f"Epoch [{epoch+1}/{num_epochs}]")
             loop.set_postfix(loss=loss.item())
@@ -105,4 +107,3 @@ if __name__ == "__main__":
     # Save models
     torch.save(encoder.state_dict(), "encoder.pth")
     torch.save(decoder.state_dict(), "decoder.pth")
-    

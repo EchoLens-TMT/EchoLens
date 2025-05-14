@@ -20,3 +20,4 @@ class DecoderRNN(nn.Module):
         hiddens, _ = self.lstm(embeddings)
         outputs = self.linear(hiddens)
         return outputs
+        

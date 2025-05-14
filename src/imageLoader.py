@@ -8,35 +8,42 @@ from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 
 # Custom dataset class
+from torch.utils.data import Dataset
+from PIL import Image
+import os
+
 class ImageCaptionDataset(Dataset):
     def __init__(self, image_folder, captions_dataset, transform=None):
         self.image_folder = image_folder
-        self.image_files = os.listdir(image_folder)
         self.transform = transform
 
-        # Load captions into a dictionary: {image_name: caption}
-        self.captions = {}
+        # Load captions as a list of (image_name, caption) pairs
+        self.data = []
         with open(str(captions_dataset), "r", encoding="utf-8") as f:
             for line in f:
-                parts = line.strip().lower().split(",", 1)  # Split only on first comma
+                parts = line.strip().lower().split(",", 1)
                 if len(parts) == 2:
                     img_name, caption = parts
-                    self.captions[img_name.strip()] = caption.strip()
-        
+                    img_name = img_name.strip()
+                    caption = caption.strip()
+                    image_path = os.path.join(self.image_folder, img_name)
+                    if os.path.exists(image_path):  # ✅ check if image file exists
+                        self.data.append((img_name, caption))
+                    else:
+                        print(f"[Warning] Skipped missing image at line: {image_path}")
+
     def __len__(self):
-        return len(self.image_files)
+        return len(self.data)
 
     def __getitem__(self, idx):
-        image_name = self.image_files[idx]
+        image_name, caption = self.data[idx]
         image_path = os.path.join(self.image_folder, image_name)
         image = Image.open(image_path).convert("RGB")
-
-        image_caption = self.captions.get(image_name.lower(), "<no caption>")
 
         if self.transform:
             image = self.transform(image)
 
-        return image, image_name, image_caption
+        return image, image_name, caption
 
 # 2. Loader class
 class ImageLoader:
@@ -84,9 +91,11 @@ image_transforms = transforms.Compose([
         )
     ])
 image_folder = "/mnt/d/DIT/First Sem/Computer Vision/EchoLens/DataSet/Images"
+#image_folder = "/Users/tejfaster/Developer/Python/cv_project/EchoLens/DataSet/Images"
 captions_dataset = "/mnt/d/DIT/First Sem/Computer Vision/EchoLens/DataSet/captions.txt"
+#captions_dataset = "//Users/tejfaster/Developer/Python/cv_project/EchoLens/DataSet/captions.txt"
 
 dataset = ImageCaptionDataset(image_folder,captions_dataset, transform=image_transforms)
 
 loader = ImageLoader(image_folder,captions_dataset,transform=image_transforms)
-print(loader.get_dataloader())
+print(len(loader.get_dataloader()))
