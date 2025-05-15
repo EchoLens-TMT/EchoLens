@@ -90,3 +90,8 @@ Once you have a strong baseline model:
 - Everyone writes a mini blog post or summary of what they learned after each phase
 - Teach each other during team calls
 - Swap modules halfway through the project to get cross-exposure
+
+## Dataset
+1. https://www.kaggle.com/datasets/sabahesaraki/2017-2017?resource=download - MS COCO Data
+2. https://datasets.activeloop.ai/docs/ml/datasets/flickr30k-dataset/ - Fliker 30K with 5 captions for each photo
+3. https://www.kaggle.com/datasets/adityajn105/flickr8k - Fliker 8K dataset with 5 caption for each photo
