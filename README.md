@@ -96,3 +96,6 @@ Once you have a strong baseline model:
 1. https://www.kaggle.com/datasets/sabahesaraki/2017-2017?resource=download - MS COCO Data
 2. https://datasets.activeloop.ai/docs/ml/datasets/flickr30k-dataset/ - Fliker 30K with 5 captions for each photo
 3. https://www.kaggle.com/datasets/adityajn105/flickr8k - Fliker 8K dataset with 5 caption for each photo
+
+## Relavant Research Papers
+- https://arxiv.org/pdf/1502.03044
